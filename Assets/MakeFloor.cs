@@ -15,6 +15,8 @@ public class MakeFloor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+        List<List<int>> mazeData = MazeData.Mazeref();
+
 		for(int i = 0; i < 24; i = i+1)
         {
             List<Floor> row = new List<Floor>();
@@ -23,13 +25,13 @@ public class MakeFloor : MonoBehaviour {
             {
                 currentFloor = Instantiate(floor, new Vector3(j, 0, i), Quaternion.identity);
 
-
                 row.Add(new Floor(currentFloor));
-
                 mMaterial = currentFloor.GetComponent<Renderer>().material;
 
 
-                if ((j+i) % 2 == 0)
+
+
+                if (mazeData[j][i] == 1)
                 {
                     mMaterial.color = Color.blue;
                 }

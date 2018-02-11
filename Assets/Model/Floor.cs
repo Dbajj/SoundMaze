@@ -22,4 +22,9 @@ public class Floor {
         return isWall;
     }
 
+    public void setWall(bool wallStatus)
+    {
+        isWall = wallStatus;
+    }
+
 }

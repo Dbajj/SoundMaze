@@ -36,6 +36,10 @@ public class MakeFloor : MonoBehaviour {
                 {
                     mMaterial.color = Color.blue;
                     floorObject.setWall(true);
+                    for(int k = 1; k < 10; k++)
+                    {
+                        Instantiate(floor, new Vector3(j, k, i), Quaternion.identity);
+                    }
                 }
                 else
                 {

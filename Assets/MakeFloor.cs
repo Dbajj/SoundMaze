@@ -1,81 +1,76 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class MakeFloor : MonoBehaviour {
 
-    public GameObject floor;
-    public GameObject wall;
-    private GameObject currentFloor;
-    public Material mMaterial;
+	public GameObject floor;
+	public GameObject wall;
+	private GameObject currentFloor;
+	public Material mMaterial;
 
-    public static List<List<Floor>> floorTiles = new List<List<Floor>>();
-    public static Mover controller;
+	public static List<List<Floor>> floorTiles = new List<List<Floor>>();
+	public static Mover controller;
+
+	Byte[,] maze;
 
 	// Use this for initialization
 	void Start () {
+		int n = 25;
 
-        List<List<int>> mazeData = MazeData.Mazeref();
+		maze = new Maze(n, n).BuildMap();
 
-		for(int i = 0; i < 25; i = i+1)
-        {
-            List<Floor> row = new List<Floor>();
-            floorTiles.Add(row);
-            for(int j = 0; j < 25; j = j+1)
-            {
-                currentFloor = Instantiate(floor, new Vector3(j, 0, i), Quaternion.identity);
+		for(int i = 0; i < n; i = i+1)
+		{
+			List<Floor> row = new List<Floor>();
+			floorTiles.Add(row);
+			for(int j = 0; j < n; j = j+1)
+			{
+				currentFloor = Instantiate(floor, new Vector3(j, 0, i), Quaternion.identity);
 
-                Floor floorObject = new Floor(currentFloor);
+				Floor floorObject = new Floor(currentFloor);
 
-                row.Add(floorObject);
-                mMaterial = currentFloor.GetComponent<Renderer>().material;
+				row.Add(floorObject);
+				mMaterial = currentFloor.GetComponent<Renderer>().material;
 
+				if ((maze[j, i]!= 0))
+				{
+					mMaterial.color = Color.blue;
+					floorObject.setWall(true);
+					for(int k = 1; k < 5; k++)
+					{
+						Instantiate(floor, new Vector3(j, k, i), Quaternion.identity);
+					}
+				}
+				else
+				{
+					mMaterial.color = Color.white;
+				}
+			}
+		}
 
-                
-                if (mazeData[j][mazeData.Count-i-1] == 1)
-                {
-                    mMaterial.color = Color.blue;
-                    floorObject.setWall(true);
-                    for(int k = 1; k < 10; k++)
-                    {
-                        Instantiate(floor, new Vector3(j, k, i), Quaternion.identity);
-                    }
-                }
-                else
-                {
-                    mMaterial.color = Color.white;
-                }
+		Vector3 wallPositionCenter = gameObject.transform.position;
 
-            }
-        }
+		GameObject frontWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z+0.5f), Quaternion.identity);
+		GameObject backWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z - 0.5f), Quaternion.identity);
+		GameObject leftWall = Instantiate(wall, new Vector3(wallPositionCenter.x - 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.identity);
+		GameObject rightWall = Instantiate(wall, new Vector3(wallPositionCenter.x + 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.identity);
 
-        Vector3 wallPositionCenter = gameObject.transform.position;
+		frontWall.name = "Front";
+		backWall.name = "Back";
+		leftWall.name = "Left";
+		rightWall.name = "Right";
 
-        GameObject frontWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z+0.5f), Quaternion.identity);
-        GameObject backWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z - 0.5f), Quaternion.identity);
-        GameObject leftWall = Instantiate(wall, new Vector3(wallPositionCenter.x - 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.Euler(0,90,0));
-        GameObject rightWall = Instantiate(wall, new Vector3(wallPositionCenter.x + 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.Euler(0,-90,0));
+		frontWall.GetComponent<Renderer>().material.color = Color.red;
 
-        frontWall.name = "Front";
-        backWall.name = "Back";
-        leftWall.name = "Left";
-        rightWall.name = "Right";
+		Coordinate c = new Coordinate(1,1);
 
-        //frontWall.GetComponent<Renderer>().material.color = Color.green;
-        //backWall.GetComponent<Renderer>().material.color = Color.red;
-        //leftWall.GetComponent<Renderer>().material.color = Color.blue;
-        //rightWall.GetComponent<Renderer>().material.color = Color.yellow;
-
-
-        Coordinate c = new Coordinate(1,1);
-
-        controller = new Mover(frontWall, backWall, leftWall, rightWall,c);
-        
+		controller = new Mover(frontWall, backWall, leftWall, rightWall,c);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
-

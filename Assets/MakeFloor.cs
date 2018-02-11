@@ -49,15 +49,19 @@ public class MakeFloor : MonoBehaviour {
 
         GameObject frontWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z+0.5f), Quaternion.identity);
         GameObject backWall = Instantiate(wall, new Vector3(wallPositionCenter.x, wallPositionCenter.y, wallPositionCenter.z - 0.5f), Quaternion.identity);
-        GameObject leftWall = Instantiate(wall, new Vector3(wallPositionCenter.x - 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.identity);
-        GameObject rightWall = Instantiate(wall, new Vector3(wallPositionCenter.x + 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.identity);
+        GameObject leftWall = Instantiate(wall, new Vector3(wallPositionCenter.x - 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.Euler(0,90,0));
+        GameObject rightWall = Instantiate(wall, new Vector3(wallPositionCenter.x + 0.5f, wallPositionCenter.y, wallPositionCenter.z), Quaternion.Euler(0,-90,0));
 
         frontWall.name = "Front";
         backWall.name = "Back";
         leftWall.name = "Left";
         rightWall.name = "Right";
 
-        frontWall.GetComponent<Renderer>().material.color = Color.red;
+        //frontWall.GetComponent<Renderer>().material.color = Color.green;
+        //backWall.GetComponent<Renderer>().material.color = Color.red;
+        //leftWall.GetComponent<Renderer>().material.color = Color.blue;
+        //rightWall.GetComponent<Renderer>().material.color = Color.yellow;
+
 
         Coordinate c = new Coordinate(1,1);
 

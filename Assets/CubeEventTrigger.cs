@@ -4,10 +4,28 @@ using UnityEngine.EventSystems;
 public class CubeEventTrigger : EventTrigger {
 
     public override void OnPointerClick(PointerEventData eventData)
-    {
-        var player = GameObject.Find("Player");
 
-        player.transform.position = new Vector3(gameObject.transform.position.x, player.transform.position.y, gameObject.transform.position.z);
+    {
+        string name = this.gameObject.name;
+
+        switch(name)
+        {
+            case ("Front"):
+                MakeFloor.controller.moveForward();
+                break;
+            case ("Back"):
+                MakeFloor.controller.moveBackward();
+                break;
+            case ("Right"):
+                MakeFloor.controller.moveRight();
+                break;
+            case ("Left"):
+                MakeFloor.controller.moveLeft();
+                break;
+        }
+
     }
+
+    
 
 }

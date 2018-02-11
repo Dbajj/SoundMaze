@@ -125,8 +125,6 @@ public class Mover
     }
     private bool notBlocked(Coordinate c)
     {
-        Debug.Log("Z coordinate: " + c.z +"X coordinate: " + c.x);
-        Debug.Log(MakeFloor.floorTiles[c.z].Count);
         Floor destTile = MakeFloor.floorTiles[c.z][c.x];
 
         return !destTile.checkWall();
